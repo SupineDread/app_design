@@ -15,12 +15,13 @@ class Circle extends StatelessWidget {
       width: this.size,
       height: this.size,
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: this.colors,
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          shape: BoxShape.circle),
+        gradient: LinearGradient(
+          colors: this.colors,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+        shape: BoxShape.circle,
+      ),
     );
   }
 }
