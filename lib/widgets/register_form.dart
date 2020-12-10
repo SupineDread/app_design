@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_api_rest/api/authentication_api.dart';
+import 'package:flutter_api_rest/pages/home_page.dart';
+import 'package:flutter_api_rest/utils/dialogs.dart';
 import 'package:flutter_api_rest/utils/responsive.dart';
 import 'package:flutter_api_rest/widgets/input_text.dart';
+import 'package:logger/logger.dart';
 
 class RegisterForm extends StatefulWidget {
   @override
@@ -10,14 +16,34 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   GlobalKey<FormState> _formKey = GlobalKey();
   String _email = '', _password = '', _username = '';
+  final AuthenticationAPI _authenticationAPI = AuthenticationAPI();
+  Logger _logger = Logger();
 
-  _submit() {
+  Future<void> _submit() async {
     final bool isValid = _formKey.currentState.validate();
     if (isValid) {
-      // consume rest service
-      print("email: $_email");
-      print("password: $_password");
-      print("username: $_username");
+      ProgressDialog.show(context);
+      final response = await _authenticationAPI.register(
+        username: _username,
+        email: _email,
+        password: _password,
+      );
+      ProgressDialog.dissmis(context);
+      if (response.data != null) {
+        _logger.i("register ok ${response.data}");
+        Navigator.pushNamedAndRemoveUntil(context, HomePage.routeName, (_) => false);
+      } else {
+        _logger.e("register error code ${response.error.statusCode}");
+        _logger.e("register error error ${response.error.message}");
+        _logger.e("register error data ${response.error.data}");
+        String message = response.error.message;
+        if (response.error.statusCode == -1) {
+          message = "Bad network";
+        } else if (response.error.statusCode == 409) {
+          message = "Duplicated data ${jsonEncode(response.error.data['duplicatedFields'])}";
+        }
+        Dialogs.alert(context, title: "Error", description: message);
+      }
     }
   }
 
@@ -70,8 +96,8 @@ class _RegisterFormState extends State<RegisterForm> {
                 height: responsive.dp(2),
               ),
               InputText(
-                keyboardType: TextInputType.emailAddress,
                 label: "PASSWORD",
+                obscureText: true,
                 fontSize: responsive.dp(responsive.isTablet ? 1.2 : 1.4),
                 onChanged: (text) {
                   _password = text;
