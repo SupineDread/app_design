@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_api_rest/helpers/dependency_injection.dart';
 import 'package:flutter_api_rest/pages/home_page.dart';
 import 'package:flutter_api_rest/pages/login_page.dart';
 import 'package:flutter_api_rest/pages/register_page.dart';
 
 void main() {
+  DependencyInjection.initialize();
   runApp(MyApp());
 }
 

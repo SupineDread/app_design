@@ -6,6 +6,7 @@ import 'package:flutter_api_rest/pages/home_page.dart';
 import 'package:flutter_api_rest/utils/dialogs.dart';
 import 'package:flutter_api_rest/utils/responsive.dart';
 import 'package:flutter_api_rest/widgets/input_text.dart';
+import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -16,14 +17,15 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   GlobalKey<FormState> _formKey = GlobalKey();
   String _email = '', _password = '', _username = '';
-  final AuthenticationAPI _authenticationAPI = AuthenticationAPI();
+
   Logger _logger = Logger();
 
   Future<void> _submit() async {
     final bool isValid = _formKey.currentState.validate();
     if (isValid) {
       ProgressDialog.show(context);
-      final response = await _authenticationAPI.register(
+      final authenticationAPI = GetIt.instance<AuthenticationAPI>();
+      final response = await authenticationAPI.register(
         username: _username,
         email: _email,
         password: _password,
