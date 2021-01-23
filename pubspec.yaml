@@ -32,6 +32,7 @@ dependencies:
   dio: ^3.0.10
   logger: ^0.9.4
   get_it: ^5.0.1
+  flutter_secure_storage: ^3.3.5
 
 dev_dependencies:
   flutter_test:

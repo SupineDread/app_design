@@ -18,12 +18,13 @@ class Http {
     _logsEnabled = logsEnabled;
   }
 
-  Future<HttpResponse> request(
+  Future<HttpResponse<T>> request<T>(
     String path, {
     String method = "GET",
     Map<String, dynamic> queryParameters,
     Map<String, dynamic> data,
     Map<String, String> headers,
+    T Function(dynamic data) parser,
   }) async {
     try {
       final response = await _dio.request(path,
@@ -34,13 +35,17 @@ class Http {
           queryParameters: queryParameters,
           data: data);
       _logger.i(response.data);
-      return HttpResponse.success(response.data);
+      if (parser != null) {
+        return HttpResponse.success<T>(parser(response.data));
+      }
+      return HttpResponse.success<T>(response.data);
     } catch (e) {
       _logger.e(e);
-      int statusCode = -1;
+      int statusCode = 0;
       String message = "Unknown error";
       dynamic data;
       if (e is DioError) {
+        statusCode = -1;
         message = e.message;
         if (e.response != null) {
           statusCode = e.response.statusCode;

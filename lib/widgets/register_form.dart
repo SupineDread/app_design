@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_api_rest/api/authentication_api.dart';
+import 'package:flutter_api_rest/data/authentication_client.dart';
 import 'package:flutter_api_rest/pages/home_page.dart';
 import 'package:flutter_api_rest/utils/dialogs.dart';
 import 'package:flutter_api_rest/utils/responsive.dart';
@@ -15,6 +16,8 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
+  final _authenticationAPI = GetIt.instance<AuthenticationAPI>();
+  final _authenticationClient = GetIt.instance<AuthenticationClient>();
   GlobalKey<FormState> _formKey = GlobalKey();
   String _email = '', _password = '', _username = '';
 
@@ -24,20 +27,16 @@ class _RegisterFormState extends State<RegisterForm> {
     final bool isValid = _formKey.currentState.validate();
     if (isValid) {
       ProgressDialog.show(context);
-      final authenticationAPI = GetIt.instance<AuthenticationAPI>();
-      final response = await authenticationAPI.register(
+      final response = await _authenticationAPI.register(
         username: _username,
         email: _email,
         password: _password,
       );
       ProgressDialog.dissmis(context);
       if (response.data != null) {
-        _logger.i("register ok ${response.data}");
+        await _authenticationClient.saveSession(response.data);
         Navigator.pushNamedAndRemoveUntil(context, HomePage.routeName, (_) => false);
       } else {
-        _logger.e("register error code ${response.error.statusCode}");
-        _logger.e("register error error ${response.error.message}");
-        _logger.e("register error data ${response.error.data}");
         String message = response.error.message;
         if (response.error.statusCode == -1) {
           message = "Bad network";
