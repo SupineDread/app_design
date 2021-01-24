@@ -1,20 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_api_rest/helpers/http_helpers.dart';
-import 'package:logger/logger.dart';
+import 'package:flutter_api_rest/utils/logs.dart';
 import 'package:meta/meta.dart' show required;
 
 class Http {
   Dio _dio;
-  Logger _logger;
   bool _logsEnabled;
 
   Http({
     @required Dio dio,
-    @required Logger logger,
     @required bool logsEnabled,
   }) {
     _dio = dio;
-    _logger = logger;
     _logsEnabled = logsEnabled;
   }
 
@@ -34,13 +31,13 @@ class Http {
           ),
           queryParameters: queryParameters,
           data: data);
-      _logger.i(response.data);
+      Logs.p.i(response.data);
       if (parser != null) {
         return HttpResponse.success<T>(parser(response.data));
       }
       return HttpResponse.success<T>(response.data);
     } catch (e) {
-      _logger.e(e);
+      Logs.p.e(e);
       int statusCode = 0;
       String message = "Unknown error";
       dynamic data;
