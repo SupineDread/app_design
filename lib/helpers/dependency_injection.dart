@@ -14,7 +14,7 @@ abstract class DependencyInjection {
     final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
     final AuthenticationAPI authenticationAPI = AuthenticationAPI(http);
-    final AuthenticationClient authenticationClient = AuthenticationClient(secureStorage);
+    final AuthenticationClient authenticationClient = AuthenticationClient(secureStorage, authenticationAPI);
     final AccountApi accountApi = AccountApi(http, authenticationClient);
 
     GetIt.instance.registerSingleton<AuthenticationAPI>(authenticationAPI);

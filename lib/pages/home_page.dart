@@ -3,7 +3,6 @@ import 'package:flutter_api_rest/api/account_api.dart';
 import 'package:flutter_api_rest/data/authentication_client.dart';
 import 'package:flutter_api_rest/models/user.dart';
 import 'package:flutter_api_rest/pages/login_page.dart';
-import 'package:flutter_api_rest/utils/logs.dart';
 import 'package:get_it/get_it.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,7 +28,6 @@ class _HomePageState extends State<HomePage> {
   Future<void> _loadUser() async {
     final response = await _accountApi.getUserInfo();
     if (response.data != null) {
-      Logs.p.i(response.data.createdAt);
       _user = response.data;
       setState(() {});
     }
