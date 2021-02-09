@@ -7,6 +7,7 @@ class User {
     @required this.email,
     @required this.createdAt,
     @required this.updatedAt,
+    @required this.avatar,
   });
 
   final String id;
@@ -14,6 +15,7 @@ class User {
   final String email;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final String avatar;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["_id"],
@@ -21,6 +23,7 @@ class User {
         email: json["email"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
+        avatar: json["avatar"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -29,5 +32,23 @@ class User {
         "email": email,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+        "avatar": this.avatar,
       };
+
+  User copyWith({
+    String id,
+    String username,
+    String email,
+    String avatar,
+    DateTime createdAt,
+    DateTime updatedAt,
+  }) =>
+      User(
+        id: id ?? this.id,
+        username: username ?? this.username,
+        email: email ?? this.email,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        avatar: avatar ?? this.avatar,
+      );
 }
