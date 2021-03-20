@@ -9,7 +9,7 @@ abstract class Dialogs {
         title: Text(title),
         content: Text(description),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () {
               Navigator.pop(_);
             },

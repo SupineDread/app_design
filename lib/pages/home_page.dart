@@ -3,7 +3,6 @@ import 'package:flutter_api_rest/api/account_api.dart';
 import 'package:flutter_api_rest/data/authentication_client.dart';
 import 'package:flutter_api_rest/models/user.dart';
 import 'package:flutter_api_rest/pages/login_page.dart';
-import 'package:flutter_api_rest/utils/logs.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
@@ -89,11 +88,11 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 30.0,
           ),
-          FlatButton(
+          TextButton(
             onPressed: _pickImage,
             child: Text("Update avatar"),
           ),
-          FlatButton(
+          TextButton(
             onPressed: _signOut,
             child: Text("Sign Out"),
           )

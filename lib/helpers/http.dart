@@ -5,14 +5,11 @@ import 'package:meta/meta.dart' show required;
 
 class Http {
   Dio _dio;
-  bool _logsEnabled;
 
   Http({
     @required Dio dio,
-    @required bool logsEnabled,
   }) {
     _dio = dio;
-    _logsEnabled = logsEnabled;
   }
 
   Future<HttpResponse<T>> request<T>(

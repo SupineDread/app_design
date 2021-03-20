@@ -9,7 +9,7 @@ import 'package:get_it/get_it.dart';
 abstract class DependencyInjection {
   static void initialize() {
     final Dio dio = Dio(BaseOptions(baseUrl: 'https://evening-refuge-79635.herokuapp.com'));
-    Http http = Http(dio: dio, logsEnabled: true);
+    Http http = Http(dio: dio);
 
     final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 

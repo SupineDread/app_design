@@ -97,8 +97,9 @@ class _LoginFormState extends State<LoginForm> {
                         },
                       ),
                     ),
-                    FlatButton(
-                      padding: EdgeInsets.symmetric(vertical: 10),
+                    TextButton(
+                      // padding: EdgeInsets.symmetric(vertical: 10),
+                      style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 15.0))),
                       child: Text(
                         "Forgot Password",
                         style: TextStyle(
@@ -116,10 +117,10 @@ class _LoginFormState extends State<LoginForm> {
               ),
               SizedBox(
                 width: double.infinity,
-                child: FlatButton(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 15.0,
-                  ),
+                child: TextButton(
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 15.0)),
+                      backgroundColor: MaterialStateProperty.all(Colors.pinkAccent)),
                   child: Text(
                     "Sign In",
                     style: TextStyle(
@@ -128,7 +129,6 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                   onPressed: this._submit,
-                  color: Colors.pinkAccent,
                 ),
               ),
               SizedBox(
@@ -143,7 +143,7 @@ class _LoginFormState extends State<LoginForm> {
                       fontSize: responsive.dp(1.5),
                     ),
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       "Sign Up",
                       style: TextStyle(
